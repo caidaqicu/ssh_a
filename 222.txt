@@ -1,0 +1,252 @@
+springBoot
+	web
+	redis
+		 SpringDataRedis	
+			redisTemplate
+			 Spring Cache	无过期时间
+				@EnableCaching //开启缓存
+	mongodb
+		SpringDataMongoDB	mongoTemplate
+	activeMq
+		点对点模式，订阅模式
+	rebbitMq
+		直接模式（Direct），分列模式（Fanout），主题模式（topic），headers
+		提供者：rabbitTemplate.convertAndSend("sms",map);
+		消费者：@RabbitListener(queues = "sms")
+	mybatis
+		包名bto 远程调用等需要大量传输对象的地方。
+		逆向工程导入实体，接口，sql映射文件
+			自定义查询Dao	getDetail(@Param("id") Long id); @Param是地处Dao层，是为了传递多个参数
+		resultMap,resultType,collection？？？？？？
+		xml版：
+			导依赖
+			改配置
+			加注解（包扫描@MapperScan）
+			开发mapper
+			添加mapper的映射文件(parameterType,resultMap,collection,??????????)
+			
+		注解版：
+			导依赖
+			改配置
+			加注解（包扫描@MapperScan）
+			开发mapper(@Select,@Results,@Result)
+			
+		多数据源：
+			@Configuration
+			@ConfigurationProperties(prefix = "spring.datasource.test1")
+			
+			@Bean(name = "test1SqlSessionFactory")
+    			@Primary	
+		
+			一层一层注入,首先创建 DataSource，
+			然后创建 SqlSessionFactory 
+			再创建事务，
+			最后包装到 SqlSessionTemplate 中。
+			其中需要指定分库的 mapper 文件地址，以及分库dao层代码
+	全局异常处理
+		@ControllerAdvice
+			类
+		@ExceptionHandler(value = Exception.class)
+    		@ResponseBody
+			方法
+	BCrypt加密
+		加入springSecurity依赖
+		添加配置类（user项目中加入springsecurity依赖之后，所有的请求都会被springsecurity控制，我们只需要加密功能，因此，需要添加配置类，配置所有的地址都可以匿名访问）
+			@Configuration
+			@EnableWebSecurity
+		启动引导类，配置bean
+		密码加密与校验
+			encoder.encode(admin.getPassword())
+			encoder.matches(password, admin.getPassword())
+	微服务鉴权JWT
+		jwt,Security,cas？？？？？？？？
+	ES
+		安装不成功？？？？？？？？
+		
+	定时任务
+		导依赖			spring-boot-starter
+		启动类上面加上		@EnableScheduling即可开启定时
+		创建定时任务实现类	@Scheduled(cron="*/6 * * * * ?")
+
+	Thymeleaf
+	邮件服务
+	上传下载文件
+	fastDFS
+	shiro
+	
+
+
+注册
+	导依赖
+		spring-cloud-starter-netflix-eureka-server
+	改配置
+		服务端配置，客户端配置
+	加注解
+		@EnableEurekaServer	@EnableEurekaClient
+调用
+	导依赖
+		spring-cloud-starter-openfeign
+	加注解
+		@EnableDiscoveryClient //让注册中心能够发现，扫描到该服务。
+		@EnableFeignClients  //调用其他服务的api
+	加接口调用
+		@FeignClient("tensquare-base")
+		@RequestMapping(value = "/label/{id}",method = RequestMethod.GET)
+	加controller路径调用
+		
+
+熔断器
+	改配置
+		开启熔断器
+	实现接口
+		实现调用的接口
+	接口加注解
+		@FeignClient(value = "tensquare-base",fallback = BaseClientImpl.class)
+	
+服务网关
+	加注解
+		spring-cloud-starter-netflix-eureka-client
+		spring-cloud-starter-netflix-zuul
+	改配置
+		#配置请求URL的请求规则
+		#指定Eureka注册中心中的服务id
+	zuul过滤器？？？？？？？
+		web	request.getHeader("Authorization");
+		manager	token
+	
+
+
+集中配置组件SpringCloudConfig
+消息总线组件SpringCloudBus
+	导依赖
+		服务端：
+			spring-cloud-config-server
+			spring-cloud-bus
+			spring-cloud-stream-binder-rabbit？？？？？？？
+		客户端：
+			配置中心客户端
+				spring-cloud-starter-config
+			消息总线
+				spring-cloud-bus
+				spring-cloud-stream-binder-rabbit
+				spring-boot-starter-actuator
+	改配置：
+		服务端：
+			#配置git仓库位置
+			bus-refresh
+		客户端：
+			上传码云
+			修改配置
+			
+	自定义配置的读取？？？？？？？？
+		修改码云上的配置文件，增加自定义配置
+		读取配置  刷新配置  @RefreshScope
+	
+=============================================
+Stream作为Java 8的一大特点，是对集合对象功能的增强，
+	***.stream().map(...).collect(Collectors.toList())中，***需要是一个List类型的对象
+
+BeanUtils.copyProperties("转换后的类", "要转换的类");  
+
+
+
+日志输出
+
+
+
+=================================================
+vue
+	条件判断 v-if v-else-if v-else
+	循环语句 v-for 指令需要以 site in sites 形式的特殊语法
+	监听属性 vm.$watch('counter', function(nval, oval) {
+	事件处理器
+		事件修饰符
+		按键修饰符
+	表单
+		复选框
+		单选按钮
+		修饰符
+	Ajax(axios)
+
+
+====================================================
+测试类：
+@RunWith(SpringRunner.class)	单元测试
+@SpringBootTest			读取配置文件
+
+Assert.assertEquals(3, userMapper.getAll().size());				断言，主用于比较测试传递进去的两个参数.
+Assert.assertTrue(("neo".equals(userMapper.getOne(6l).getNickName())));
+
+WebApplicationContext		是专门为web应用准备的,他允许从相对于web根目录的路劲中装载配置文件完成初始化工作
+
+=================================================
+enum		枚举
+
+提交工具
+idea编码
+开发，测试，生产
+日志
+文档，接口，测试，需求
+
+C:\Program Files\TortoiseGit\bin\TortoiseGitPlink.exe
+redirectAttributes.addFlashAttribute("param", value);
+	这种方式也能达到重新向带参，而且能隐藏参数
+	这种方式确实能重定向带参，但是有个问题，这个只能重定向到页面上，也就是说重定向的这个页面视图，能用el表达式直接获取你带参的值，比如status 和message ，都能获取。 可是我重定向到另一个Controller的时候，这个控制器里面没法获取这两个参数
+
+
+!StringUtils.isEmpty(orderSn) = !"".equals(orderSn) && orderSn!=null
+
+
+==================================================================
+前后端分离写
+pyg仓库
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
